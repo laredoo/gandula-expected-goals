@@ -319,7 +319,7 @@ wheels = [
 [[package]]
 name = "gandula-expected-goals"
 version = "0.0.1"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "kedro" },
     { name = "kloppy" },
