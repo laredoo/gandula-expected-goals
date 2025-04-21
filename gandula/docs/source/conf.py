@@ -21,7 +21,7 @@ import re
 
 from kedro.framework.cli.utils import find_stylesheets
 
-from gandula_expected_goals import __version__ as release
+from gandula import __version__ as release
 
 # -- Project information -----------------------------------------------------
 
