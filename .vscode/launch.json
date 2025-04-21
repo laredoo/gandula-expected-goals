@@ -8,14 +8,13 @@
             "name": "Gandula: Expected Goals",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}",
+            "module": "kedro",
             "console": "integratedTerminal",
             "args": [
-                "kedro",
                 "run",
                 "--pipeline",
                 "expected_goals",
             ]
-        }
+        },
     ]
 }
