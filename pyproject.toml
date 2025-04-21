@@ -2,9 +2,6 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.hatch.build.targets.wheel]
-packages = ["gandula"]
-
 [project]
 name = "gandula-expected-goals"
 version = "0.0.1"
@@ -35,3 +32,15 @@ dev = [
 test = [
     "pytest>=8.0.0"
 ]
+
+[tool.kedro]
+package_name = "gandula-expected-goals"
+project_name = "gandula-expected-goals"
+kedro_init_version = "0.19.9"
+source_dir = "."
+
+[tool.kedro_telemetry]
+project_id = "ee2492e9d58c48728149aa9ab7742149"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gandula-expected-goals"]
