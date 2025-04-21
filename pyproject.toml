@@ -1,0 +1,30 @@
+[project]
+name = "gandula-expected-goals"
+version = "0.0.1"
+description = "Expected goals models using kloppy."
+authors = [
+  {name="Lucas Rocha Laredo", email="devlucaslaredo@gmail.com"},
+]
+maintainers = [
+  {name="Lucas Rocha Laredo", email="devlucaslaredo@gmail.com"},
+]
+readme = 'README.md'
+repository = "https://github.com/laredoo/gandula-expected-goals"
+keywords = ["salab", "expected", "goals", "sports", "analytics"]
+requires-python = ">=3.11"
+
+dependencies = [
+    "kedro>=0.19.12",
+    "kloppy>=3.16.0",
+    "pandas>=2.2.3",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "mypy>=1.15.0",
+    "ruff>=0.6.2",
+]
+test = [
+    "pytest>=8.0.0"
+]
