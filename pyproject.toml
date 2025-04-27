@@ -19,6 +19,7 @@ requires-python = ">=3.11"
 
 dependencies = [
     "kedro>=0.19.12",
+    "kedro-datasets[pandas]>=7.0.0",
     "kloppy>=3.16.0",
     "pandas>=2.2.3",
 ]
