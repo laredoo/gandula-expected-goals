@@ -1,6 +1,9 @@
 ##########################
 # KEDRO PROJECT
 
+# data catalog
+data/
+
 # ignore all local configuration
 conf/local/**
 !conf/local/.gitkeep
