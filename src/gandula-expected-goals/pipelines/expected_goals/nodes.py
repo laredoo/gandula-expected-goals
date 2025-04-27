@@ -1,19 +1,9 @@
-from kedro.pipeline import node
-
+import pandas as pd
 
 # First node
-def return_greeting():
-    return "Hello"
-
-
-return_greeting_node = node(func=return_greeting, inputs=None, outputs="my_salutation")
-
+def return_greeting(players: pd.DataFrame) -> None:
+    print(players)
 
 # Second node
-def join_statements(greeting):
-    return f"{greeting} Kedro!"
-
-
-join_statements_node = node(
-    join_statements, inputs="my_salutation", outputs="my_message"
-)
+def join_statements(competitions):
+    print(competitions)

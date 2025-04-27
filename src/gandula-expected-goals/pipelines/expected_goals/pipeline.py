@@ -1,5 +1,22 @@
-from kedro.pipeline import pipeline
-from .nodes import return_greeting_node, join_statements_node
+from kedro.pipeline import node, Pipeline
+from .nodes import return_greeting, join_statements
 
-# Assemble nodes into a pipeline
-greeting_pipeline = pipeline([return_greeting_node, join_statements_node])
+
+def create_pipeline(**kwargs) -> Pipeline:
+    """Create a pipeline to return a greeting message."""
+    return Pipeline(
+        [
+            node(
+                func=return_greeting,
+                inputs="players",
+                outputs=None,
+                name="return_greeting_node",
+            ),
+            node(
+                func=join_statements,
+                inputs="competitions",
+                outputs=None,
+                name="join_statements_node",
+            ),
+        ],
+    )
