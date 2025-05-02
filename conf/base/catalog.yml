@@ -1,12 +1,24 @@
 # raw data
 
-raw_players:
-  type: pandas.CSVDataset
-  filepath: data/01_raw/players.csv
-
 raw_competitions:
   type: pandas.CSVDataset
-  filepath: data/01_raw/competitions.csv
+  filepath: ${runtime_params:raw_competitions_path}
+
+raw_players:
+  type: pandas.CSVDataset
+  filepath: ${runtime_params:raw_players_path}
+
+raw_events:
+  type: pandas.JSONDataset
+  filepath: ../../data/PFF/world-cup-2022/events/
+
+raw_metadata:
+  type: pandas.JSONDataset
+  filepath: ../../data/PFF/world-cup-2022/players.csv
+
+raw_rosters:
+  type: pandas.JSONDataset
+  filepath: ../../data/PFF/world-cup-2022/players.csv
 
 # intermediate data
 
