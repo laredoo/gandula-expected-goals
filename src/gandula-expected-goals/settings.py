@@ -23,9 +23,21 @@ https://docs.kedro.org/en/stable/kedro_project_setup/settings.html."""
 # CONF_SOURCE = "conf"
 
 # Class that manages how configuration is loaded.
-# from kedro.config import OmegaConfigLoader
+from kedro.config import OmegaConfigLoader, MissingConfigException
+from kedro.framework.project import settings
+from pathlib import Path
 
 # CONFIG_LOADER_CLASS = OmegaConfigLoader
+
+project_path = Path(__file__).resolve().parent.parent.parent
+
+conf_path = str(project_path / settings.CONF_SOURCE)
+conf_loader = OmegaConfigLoader(conf_source=conf_path)
+
+try:
+    parameters = conf_loader["parameters"]
+except MissingConfigException:
+    parameters = {}
 
 # Keyword arguments to pass to the `CONFIG_LOADER_CLASS` constructor.
 CONFIG_LOADER_ARGS = {
