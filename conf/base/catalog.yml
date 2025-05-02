@@ -1,7 +1,19 @@
-players:
+# raw data
+
+raw_players:
   type: pandas.CSVDataset
   filepath: data/01_raw/players.csv
 
-competitions:
+raw_competitions:
   type: pandas.CSVDataset
   filepath: data/01_raw/competitions.csv
+
+# intermediate data
+
+intermediate_matches:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/matches.csv
+
+indermediate_competitions:
+  type: pandas.CSVDataset
+  filepath: data/02_intermediate/competitions.csv
