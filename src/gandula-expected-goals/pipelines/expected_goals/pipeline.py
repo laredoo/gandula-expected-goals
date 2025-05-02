@@ -1,5 +1,5 @@
 from kedro.pipeline import node, Pipeline
-from .nodes import return_greeting, join_statements
+from .nodes import explode_competitions, format_matches, format_competitions
 
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -7,16 +7,22 @@ def create_pipeline(**kwargs) -> Pipeline:
     return Pipeline(
         [
             node(
-                func=return_greeting,
-                inputs="players",
-                outputs=None,
-                name="return_greeting_node",
+                func=explode_competitions,
+                inputs="raw_competitions",
+                outputs="raw_matches",
+                name="explode_competitions_node",
             ),
             node(
-                func=join_statements,
-                inputs="competitions",
-                outputs=None,
-                name="join_statements_node",
+                func=format_matches,
+                inputs="raw_matches",
+                outputs="intermediate_matches",
+                name="format_matches_node",
+            ),
+            node(
+                func=format_competitions,
+                inputs="raw_competitions",
+                outputs="intermediate_competitions",
+                name="format_competitions_node",
             ),
         ],
     )
