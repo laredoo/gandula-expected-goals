@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "gandula-expected-goals"
+name = "gandula_expected_goals"
 version = "0.0.1"
 description = "Expected goals models using kloppy."
 authors = [
@@ -35,8 +35,8 @@ test = [
 ]
 
 [tool.kedro]
-package_name = "gandula-expected-goals"
-project_name = "gandula-expected-goals"
+package_name = "gandula_expected_goals"
+project_name = "gandula_expected_goals"
 kedro_init_version = "0.19.9"
 source_dir = "."
 
@@ -44,4 +44,4 @@ source_dir = "."
 project_id = "ee2492e9d58c48728149aa9ab7742149"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/gandula-expected-goals"]
+packages = ["src/gandula_expected_goals"]

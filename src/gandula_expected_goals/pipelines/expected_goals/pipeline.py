@@ -1,5 +1,5 @@
 from kedro.pipeline import node, Pipeline
-from .nodes import explode_competitions, format_matches, format_competitions
+from .nodes import explode_competitions, format_matches, format_competitions, consolidate_match_events
 
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -24,5 +24,11 @@ def create_pipeline(**kwargs) -> Pipeline:
                 outputs="intermediate_competitions",
                 name="format_competitions_node",
             ),
+            node(
+                func=consolidate_match_events,
+                inputs="params:event_sources.match_id",
+                outputs="intermediate_events",
+                name="consolidate_match_events_node",
+            )
         ],
     )

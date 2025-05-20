@@ -19,23 +19,29 @@ https://docs.kedro.org/en/stable/kedro_project_setup/settings.html."""
 #     "path": "./sessions"
 # }
 
-# Directory that holds configuration.
-# CONF_SOURCE = "conf"
+import os
 
 # Class that manages how configuration is loaded.
 from kedro.config import OmegaConfigLoader, MissingConfigException
 from kedro.framework.project import settings
-from pathlib import Path
+from pathlib import Path, PosixPath
+from gandula_expected_goals.utils import get_parameters
+
+
+
+# Directory that holds configuration.
+CODE_SOURCE = PosixPath(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_SOURCE =  (CODE_SOURCE / "../../")
+CONF_SOURCE = "conf"
 
 # CONFIG_LOADER_CLASS = OmegaConfigLoader
 
-project_path = Path(__file__).resolve().parent.parent.parent
-
-conf_path = str(project_path / settings.CONF_SOURCE)
+conf_path = str(PROJECT_SOURCE / settings.CONF_SOURCE)
 conf_loader = OmegaConfigLoader(conf_source=conf_path)
 
+
 try:
-    parameters = conf_loader["parameters"]
+    parameters = get_parameters(conf_loader)
 except MissingConfigException:
     parameters = {}
 

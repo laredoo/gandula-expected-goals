@@ -1,0 +1,2 @@
+event_sources:
+  match_id: ${runtime_params:match_id}

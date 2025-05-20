@@ -1,3 +1,4 @@
+from typing import List, Tuple
 import pandas as pd
 
 
@@ -12,3 +13,6 @@ def format_matches(matches: pd.DataFrame) -> pd.DataFrame:
 
 def format_competitions(competitions: pd.DataFrame) -> pd.DataFrame:
     return competitions.drop(columns=["games"])
+
+def consolidate_match_events(match_id: Tuple[str, List[str]]) -> pd.DataFrame:
+    print(match_id)

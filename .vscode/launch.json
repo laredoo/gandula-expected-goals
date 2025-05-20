@@ -15,7 +15,7 @@
                 "--pipeline",
                 "expected_goals",
                 "--params",
-                "raw_competitions_path=../../data/PFF/world-cup-2022/competitions.csv,raw_players_path=../../data/PFF/world-cup-2022/players.csv"
+                "raw_competitions_path=../../data/PFF/world-cup-2022/competitions.csv,raw_players_path=../../data/PFF/world-cup-2022/players.csv,event_sources.match_id='3812 3813'"
             ]
         },
     ]
