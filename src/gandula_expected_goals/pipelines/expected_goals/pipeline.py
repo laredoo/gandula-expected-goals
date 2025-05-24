@@ -27,7 +27,7 @@ def create_pipeline(**kwargs) -> Pipeline:
             node(
                 func=consolidate_match_events,
                 inputs="params:event_sources.match_id",
-                outputs="intermediate_events",
+                outputs=None,
                 name="consolidate_match_events_node",
             )
         ],

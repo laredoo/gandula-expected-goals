@@ -1,8 +1,5 @@
 from kedro.config import OmegaConfigLoader, MissingConfigException
 
-from .decorators import parser_params
-
-@parser_params
 def get_parameters(conf_loader: OmegaConfigLoader) -> dict:
     """
     Get parameters from the configuration loader.

@@ -2,11 +2,11 @@
 
 raw_competitions:
   type: pandas.CSVDataset
-  filepath: ${runtime_params:raw_competitions_path}
+  filepath: data/01_raw/competitions.csv
 
 raw_players:
   type: pandas.CSVDataset
-  filepath: ${runtime_params:raw_players_path}
+  filepath: data/01_raw/players.csv
 
 # intermediate data
 
