@@ -17,3 +17,9 @@ intermediate_matches:
 indermediate_competitions:
   type: pandas.CSVDataset
   filepath: data/02_intermediate/competitions.csv
+
+# primary data
+
+primary_games:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/games.csv
