@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, Callable, Dict
 import ast
 import pandas as pd
 
@@ -31,3 +31,15 @@ def format_competitions(competitions: pd.DataFrame) -> pd.DataFrame:
 
     return competitions, games, games_list
 
+def consolidate_events(partitioned_events: Dict[str, Callable[[], Any]]) -> pd.DataFrame:
+
+    events = pd.DataFrame()
+
+    for partition_key, partition_load_func in sorted(partitioned_events.items()):
+        partition_data = partition_load_func()
+        try:
+            events = pd.concat([events, partition_data], ignore_index=True)
+        except ValueError as e:
+            raise ValueError(f"Error concatenating partition {partition_key}: {e}")
+
+    return events

@@ -8,6 +8,11 @@ raw_players:
   type: pandas.CSVDataset
   filepath: data/01_raw/players.csv
 
+raw_events:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/event_data/
+  dataset: pandas.JSONDataset
+
 # intermediate data
 
 intermediate_matches:
@@ -23,3 +28,7 @@ indermediate_competitions:
 primary_games:
   type: pandas.CSVDataset
   filepath: data/03_primary/games.csv
+
+primary_events:
+  type: pandas.CSVDataset
+  filepath: data/03_primary/events.csv
