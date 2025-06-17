@@ -1,8 +1,9 @@
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, List
 import ast
 import logging
 import pandas as pd
 import pickle
+from pathlib import Path
 from kloppy import pff
 
 logger = logging.getLogger(__name__)
@@ -106,7 +107,7 @@ def format_competitions(competitions: pd.DataFrame) -> pd.DataFrame:
     return competitions, games, games_list
 
 
-def consolidate_events(
+def consolidate_event_partition_into_kedro(
     partitioned_events: Dict[str, Callable[[], Any]],
     partition: str,
     coordinates: str = "statsbomb",
@@ -158,3 +159,51 @@ def consolidate_events(
 
     logger.info(f"Successfully consolidated {len(results)} event datasets")
     return results
+
+
+def consolidate_events(
+    intermediate_first_partitioned_events: Dict[str, Callable[[], Any]],
+    intermediate_second_partitioned_events: Dict[str, Callable[[], Any]],
+) -> List[Any]:
+    """
+    Consolidate event data from two intermediate partitioned sources.
+
+    This function loads pickle files from two partitioned datasets and combines
+    them into a single consolidated list of events.
+
+    Args:
+        intermediate_first_partitioned_events: First partitioned event data containing
+                                              callables that load pickle files
+        intermediate_second_partitioned_events: Second partitioned event data containing
+                                               callables that load pickle files
+
+    Returns:
+        List containing all consolidated event data from both partitioned sources
+    """
+    logger.info(
+        f"Consolidating events from {len(intermediate_first_partitioned_events)} "
+        f"first partitioned and {len(intermediate_second_partitioned_events)} "
+        f"second partitioned datasets"
+    )
+
+    first_event_partition = {
+        partition_key: load_func()
+        for partition_key, load_func in intermediate_first_partitioned_events.items()
+    }
+
+    logger.info("Finished loading first partitioned events")
+
+    ###
+    second_event_partition = {
+        partition_key: load_func()
+        for partition_key, load_func in intermediate_second_partitioned_events.items()
+    }
+
+    logger.info("Finished loading second partitioned events")
+
+    logger.warning(
+        f"Consolidated {len(first_event_partition) + len(second_event_partition)} pickle files into one folder"
+    )
+    logger.warning("This may take a while, please be patient...")
+
+    return {**first_event_partition, **second_event_partition}

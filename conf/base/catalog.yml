@@ -47,5 +47,7 @@ primary_games:
   filepath: data/03_primary/games.csv
 
 primary_events:
-  type: pandas.CSVDataset
-  filepath: data/03_primary/events.csv
+  type: partitions.PartitionedDataset
+  path: data/03_primary/event_data/
+  dataset: pickle.PickleDataset
+  filename_suffix: ".pkl"
