@@ -47,3 +47,6 @@ project_id = "ee2492e9d58c48728149aa9ab7742149"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/gandula_expected_goals"]
+
+[tool.uv.sources]
+kloppy = { path = "../kloppy", editable = true }
