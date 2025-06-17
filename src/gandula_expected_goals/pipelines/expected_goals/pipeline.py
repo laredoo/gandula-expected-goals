@@ -1,5 +1,10 @@
 from kedro.pipeline import node, Pipeline
-from .nodes import explode_competitions, format_matches, format_competitions, consolidate_events
+from .nodes import (
+    explode_competitions,
+    format_matches,
+    format_competitions,
+    consolidate_events,
+)
 
 
 def create_pipeline(**kwargs) -> Pipeline:
@@ -26,9 +31,12 @@ def create_pipeline(**kwargs) -> Pipeline:
             ),
             node(
                 func=consolidate_events,
-                inputs="raw_events",
-                outputs="primary_events",
-                name="consolidate_events_node",
-            )
+                inputs=[
+                    "first_partitioned_raw_events",
+                    "params:first_raw_events_partition",
+                ],
+                outputs="intermediate_first_partitioned_events",
+                name="consolidate_first_events_node",
+            ),
         ],
     )
