@@ -8,9 +8,14 @@ raw_players:
   type: pandas.CSVDataset
   filepath: data/01_raw/players.csv
 
-raw_events:
+first_partitioned_raw_events:
   type: partitions.PartitionedDataset
-  path: data/01_raw/event_data/
+  path: data/01_raw/event_data_01/
+  dataset: pandas.JSONDataset
+
+second_partitioned_raw_events:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/event_data_02/
   dataset: pandas.JSONDataset
 
 # intermediate data
@@ -22,6 +27,18 @@ intermediate_matches:
 indermediate_competitions:
   type: pandas.CSVDataset
   filepath: data/02_intermediate/competitions.csv
+
+intermediate_first_partitioned_events:
+  type: partitions.PartitionedDataset
+  path: data/02_intermediate/event_data_01/
+  dataset: pickle.PickleDataset
+  filename_suffix: ".pkl"
+
+intermediate_second_partitioned_events:
+  type: partitions.PartitionedDataset
+  path: data/02_intermediate/event_data_02/
+  dataset: pickle.PickleDataset
+  filename_suffix: ".pkl"
 
 # primary data
 

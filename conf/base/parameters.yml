@@ -1,2 +1,2 @@
-event_sources:
-  match_id: [3812, 3813]
+first_raw_events_partition: "event_data_01"
+second_raw_events_partition: "event_data_02"
