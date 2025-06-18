@@ -207,3 +207,23 @@ def consolidate_events(
     logger.warning("This may take a while, please be patient...")
 
     return {**first_event_partition, **second_event_partition}
+
+
+def get_shot_events(event_data: Dict[str, Callable[[], Any]]) -> List[Any]:
+    """
+    Get shot events from the specified file.
+
+    Args:
+        file_path: Path to the file containing shot events.
+
+    Returns:
+        List of shot events.
+    """
+    logger.info(f"Consolidating all shots from {len(event_data)} matches")
+
+    return {
+        f"{record.event_name}_{record.event_id}_{record.timestamp}_{record.coordinates.x}_{record.coordinates.y}": record
+        for _, load_func in event_data.items()
+        for record in load_func()
+        if record.event_type.name == "SHOT"
+    }
