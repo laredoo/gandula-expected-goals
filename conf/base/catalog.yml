@@ -51,3 +51,11 @@ primary_events:
   path: data/03_primary/event_data/
   dataset: pickle.PickleDataset
   filename_suffix: ".pkl"
+
+# features
+
+shot_events:
+  type: partitions.PartitionedDataset
+  path: data/04_feature/shots/
+  dataset: pickle.PickleDataset
+  filename_suffix: ".pkl"
