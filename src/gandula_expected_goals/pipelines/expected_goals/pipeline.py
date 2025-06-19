@@ -6,6 +6,7 @@ from .nodes import (
     consolidate_event_partition_into_kedro,
     consolidate_events,
     get_shot_events,
+    extract_features_from_shots,
 )
 
 
@@ -62,7 +63,13 @@ def create_pipeline(**kwargs) -> Pipeline:
                 func=get_shot_events,
                 inputs="primary_events",
                 outputs="shot_events",
-                name="extract_features_node",
+                name="extract_shots_node",
+            ),
+            node(
+                func=extract_features_from_shots,
+                inputs="shot_events",
+                outputs="features",
+                name="extract_features_from_shots_node",
             ),
         ],
     )

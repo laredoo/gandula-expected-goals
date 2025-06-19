@@ -1,12 +1,14 @@
-from typing import Any, Callable, Dict, List
 import ast
 import logging
 import pandas as pd
-import pickle
-from pathlib import Path
+import numpy as np
+import sys
+
+from typing import Any, Callable, Dict, List
 from kloppy import pff
 
 logger = logging.getLogger(__name__)
+sys.setrecursionlimit(10000)
 
 PATH = "/home/laredo/work/thesis/gandula-expected-goals/data/01_raw"
 
@@ -225,3 +227,83 @@ def get_shot_events(event_data: Dict[str, Callable[[], Any]]) -> List[Any]:
         for record in load_func()
         if record.event_type.name == "SHOT"
     }
+
+
+def calculate_distance_to_goal(shot_x: float, shot_y: float) -> float:
+    """
+    Calculate the distance from a shot to the goal.
+
+    Args:
+        shots_x: X coordinate of the shot.
+        shots_y: Y coordinate of the shot.
+
+    Returns:
+        Distance from the shot to the goal.
+    """
+    goal_x, goal_y = 120, 40
+    distance = np.sqrt((goal_x - shot_x) ** 2 + (goal_y - shot_y) ** 2)
+    return distance
+
+
+def calculate_angle(shot_x, shot_y):
+    """
+    Calculate the angle of the goal as seen from the shot position.
+    This function computes the angle between the two goal posts as viewed from
+    a given shot position on the field using the law of cosines. The goal is
+    positioned at x=120 with posts at y=36 and y=44 (8 units apart).
+    Args:
+        shot_x (float): X-coordinate of the shot position
+        shot_y (float): Y-coordinate of the shot position
+    Returns:
+        float: The angle in radians between the two goal posts as seen from
+               the shot position. Returns 0 if the denominator is zero.
+    Note:
+        - Goal position is fixed at x=120
+        - Left goal post at y=36, right goal post at y=44
+        - Uses law of cosines: c² = a² + b² - 2ab*cos(C)
+        - Cosine values are clipped to [-1, 1] to avoid numerical errors
+    """
+    left_post_y, right_post_y = 36, 44
+    goal_x = 120
+    a = np.sqrt((goal_x - shot_x) ** 2 + (left_post_y - shot_y) ** 2)
+    b = np.sqrt((goal_x - shot_x) ** 2 + (right_post_y - shot_y) ** 2)
+    c = 8
+
+    denominator = 2 * a * b
+    if denominator == 0:
+        return 0
+
+    cosine_angle = (a**2 + b**2 - c**2) / denominator
+    cosine_angle = np.clip(cosine_angle, -1, 1)
+    angle = np.arccos(cosine_angle)
+    return angle
+
+
+def extract_features_from_shots(shots: Dict[str, Callable[[], Any]]) -> pd.DataFrame:
+    """
+    Extract features from shot events.
+
+    Args:
+        shots: Dictionary containing shot events.
+
+    Returns:
+        DataFrame containing extracted features from the shots.
+    """
+
+    return pd.DataFrame(
+        [
+            {
+                "event_id": load_func().event_id,
+                "event_name": load_func().event_name,
+                "distance_to_goal": calculate_distance_to_goal(
+                    shot_x=load_func().coordinates.x, shot_y=load_func().coordinates.y
+                ),
+                "angle_to_goal": calculate_angle(
+                    shot_x=load_func().coordinates.x, shot_y=load_func().coordinates.y
+                ),
+                "period": load_func().period.id,
+                "label": 1 if load_func().result.is_success else 0,
+            }
+            for _, load_func in shots.items()
+        ]
+    )
