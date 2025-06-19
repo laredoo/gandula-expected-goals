@@ -59,3 +59,7 @@ shot_events:
   path: data/04_feature/shots/
   dataset: pickle.PickleDataset
   filename_suffix: ".pkl"
+
+features:
+  type: pandas.CSVDataset
+  filepath: data/05_model_input/features.csv
