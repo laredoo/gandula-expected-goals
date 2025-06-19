@@ -8,13 +8,11 @@ from kloppy import pff
 
 logger = logging.getLogger(__name__)
 
-event_data_prefix = "/home/jupiter/ufmg/thesis/gandula-expected-goals/data/01_raw"
-meta_data_prefix = (
-    "/home/jupiter/ufmg/thesis/gandula-expected-goals/data/01_raw/metadata"
-)
-roster_data_prefix = (
-    "/home/jupiter/ufmg/thesis/gandula-expected-goals/data/01_raw/rosters"
-)
+PATH = "/home/laredo/work/thesis/gandula-expected-goals/data/01_raw"
+
+event_data_prefix = PATH
+meta_data_prefix = PATH + "/metadata"
+roster_data_prefix = PATH + "/rosters"
 
 
 def explode_competitions(competitions: pd.DataFrame) -> pd.DataFrame:
