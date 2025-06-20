@@ -22,8 +22,11 @@ dependencies = [
     "kedro-datasets[pandas]>=7.0.0",
     "kedro-viz>=11.0.2",
     "kloppy>=3.16.0",
+    "optuna>=4.4.0",
     "pandas>=2.2.3",
     "pydantic>=2.11.5",
+    "scikit-learn>=1.7.0",
+    "xgboost>=3.0.2",
 ]
 
 [dependency-groups]
