@@ -7,6 +7,7 @@ from .nodes import (
     consolidate_events,
     get_shot_events,
     extract_features_from_shots,
+    train_xg_boost_model,
 )
 
 
@@ -70,6 +71,12 @@ def create_pipeline(**kwargs) -> Pipeline:
                 inputs="shot_events",
                 outputs="features",
                 name="extract_features_from_shots_node",
+            ),
+            node(
+                func=train_xg_boost_model,
+                inputs="features",
+                outputs=["model", "results"],
+                name="train_xg_boost_model_node",
             ),
         ],
     )

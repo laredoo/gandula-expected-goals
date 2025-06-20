@@ -63,3 +63,13 @@ shot_events:
 features:
   type: pandas.CSVDataset
   filepath: data/05_model_input/features.csv
+
+# model results
+
+model:
+  type: pickle.PickleDataset
+  filepath: data/06_model/model.pkl
+
+results:
+  type: pandas.CSVDataset
+  filepath: data/07_model_output/model_output.csv

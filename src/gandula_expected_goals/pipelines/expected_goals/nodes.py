@@ -4,6 +4,11 @@ import pandas as pd
 import numpy as np
 import sys
 
+from xgboost import XGBClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import roc_auc_score
+
+
 from typing import Any, Callable, Dict, List
 from kloppy import pff
 
@@ -295,6 +300,8 @@ def extract_features_from_shots(shots: Dict[str, Callable[[], Any]]) -> pd.DataF
             {
                 "event_id": load_func().event_id,
                 "event_name": load_func().event_name,
+                "player_name": load_func().player.name,
+                "team_id": load_func().team,
                 "distance_to_goal": calculate_distance_to_goal(
                     shot_x=load_func().coordinates.x, shot_y=load_func().coordinates.y
                 ),
@@ -307,3 +314,42 @@ def extract_features_from_shots(shots: Dict[str, Callable[[], Any]]) -> pd.DataF
             for _, load_func in shots.items()
         ]
     )
+
+
+def train_xg_boost_model(df: pd.DataFrame) -> XGBClassifier:
+    """
+    Train a logistic regression model on the provided features.
+
+    Args:
+        features: DataFrame containing feature columns and target label.
+        target: Name of the target column to predict (default: "label").
+
+    Returns:
+        Trained LogisticRegression model.
+    """
+    logger.info("Training logistic regression model")
+
+    features = ["distance_to_goal", "angle_to_goal", "period"]
+
+    X = df[features]
+    y = df["label"]
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
+
+    model = XGBClassifier(use_label_encoder=False, eval_metric="logloss")
+    model.fit(X_train, y_train)
+
+    y_pred_proba = model.predict_proba(X_test)[:, 1]
+    auc = roc_auc_score(y_test, y_pred_proba)
+
+    logger.info(f"Generating results DataFrame with {len(X_test)} rows")
+
+    results_df = pd.DataFrame(X_test, columns=features)
+    results_df["xG_pred"] = y_pred_proba
+    results_df["goal_actual"] = y_test
+
+    logger.info(f"Model trained with AUC score: {auc:.4f}")
+
+    return (model, results_df)
